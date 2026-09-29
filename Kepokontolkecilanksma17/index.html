@@ -12,89 +12,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-        }
-
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; width: 100%; min-height: 100%; }
         body {
             overflow-x: hidden;
             -webkit-user-select: none;
             user-select: none;
             -webkit-touch-callout: none;
         }
-
         img {
             -webkit-user-drag: none;
             user-drag: none;
             -webkit-user-select: none;
             user-select: none;
         }
-
-        .fade-enter {
-            opacity: 0;
-            transition: opacity 0.55s ease-in-out;
-        }
-
-        .fade-enter-active {
-            opacity: 1;
-        }
-
-        .progress-bar-fill {
-            transition: width 0.1s linear;
-        }
-
+        .fade-enter { opacity: 0; transition: opacity 0.55s ease-in-out; }
+        .fade-enter-active { opacity: 1; }
+        .progress-bar-fill { transition: width 0.1s linear; }
         .thumb-preview {
             transition: transform 0.2s ease, opacity 0.3s ease, box-shadow 0.2s ease;
             -webkit-user-drag: none;
+            cursor: pointer;
         }
-
         .thumb-preview:hover {
             transform: scale(1.05);
             box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.6);
             z-index: 10;
         }
-
-        .thumbs-scroll {
-            scrollbar-width: thin;
-        }
-
-        .thumbs-scroll::-webkit-scrollbar {
-            height: 5px;
-        }
-
-        .thumbs-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
+        .thumbs-scroll { scrollbar-width: thin; }
+        .thumbs-scroll::-webkit-scrollbar { height: 5px; }
+        .thumbs-scroll::-webkit-scrollbar-track { background: transparent; }
         .thumbs-scroll::-webkit-scrollbar-thumb {
             background: rgba(99, 102, 241, 0.45);
             border-radius: 4px;
         }
-
-        .side-thumbs {
-            scrollbar-width: none;
-        }
-
-        .side-thumbs::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* =====================================================
-           RESPONSIVE GALLERY LAYOUT
-           Desktop:
-           GIF Page 8 = top/bottom
-           Normal thumbnails = left/right
-           Mobile/tablet:
-           Normal thumbnails = bottom
-           GIF Page 8 = top/bottom
-           ===================================================== */
+        .side-thumbs { scrollbar-width: none; }
+        .side-thumbs::-webkit-scrollbar { display: none; }
 
         .gallery-stage {
             width: 100%;
@@ -103,7 +56,6 @@
             align-items: stretch;
             gap: clamp(6px, 1vw, 12px);
         }
-
         .page8-gif-row {
             width: 100%;
             display: none;
@@ -115,11 +67,7 @@
             scrollbar-width: none;
             padding: 2px;
         }
-
-        .page8-gif-row::-webkit-scrollbar {
-            display: none;
-        }
-
+        .page8-gif-row::-webkit-scrollbar { display: none; }
         .page8-gif-row img {
             width: clamp(42px, 6vw, 82px);
             height: clamp(42px, 6vw, 82px);
@@ -130,32 +78,22 @@
             background: #020617;
             box-shadow: 0 7px 18px rgba(0, 0, 0, 0.34);
             -webkit-user-drag: none;
-            pointer-events: none;
+            cursor: pointer;
         }
-
         .page8-gif-row.gif-visible {
             display: flex;
             animation: gifRowAppear 0.3s ease-out;
         }
-
         @keyframes gifRowAppear {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         .main-and-side {
             width: 100%;
             display: flex;
             align-items: stretch;
             gap: clamp(6px, 1vw, 12px);
         }
-
         .main-image-wrap {
             position: relative;
             flex: 1 1 auto;
@@ -164,96 +102,51 @@
             background: #000;
             overflow: hidden;
             border-radius: clamp(9px, 1.3vw, 16px);
+            cursor: pointer;
         }
-
         .main-image-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            pointer-events: none;
         }
-
         .side-preview {
             flex: 0 0 clamp(48px, 8vw, 92px);
             min-width: clamp(48px, 8vw, 92px);
             max-height: min(400px, 48vw);
             overflow-y: auto;
         }
-
-        /* On narrow screens, don't sacrifice main image width for side thumbnails */
         @media (max-width: 767px) {
-            .main-and-side {
-                display: block;
-            }
-
-            .side-preview {
-                display: none !important;
-            }
-
-            .mobile-bottom-thumbs {
-                display: flex;
-            }
+            .main-and-side { display: block; }
+            .side-preview { display: none !important; }
+            .mobile-bottom-thumbs { display: flex; }
         }
-
         @media (min-width: 768px) {
-            .mobile-bottom-thumbs {
-                display: none;
-            }
+            .mobile-bottom-thumbs { display: none; }
         }
-
-        /* Page 8 GIF rows get larger on wide displays */
         @media (min-width: 1280px) {
-            .page8-gif-row img {
-                width: 82px;
-                height: 82px;
-                min-width: 82px;
-            }
+            .page8-gif-row img { width: 82px; height: 82px; min-width: 82px; }
         }
-
         @media (min-width: 1536px) {
-            .page8-gif-row img {
-                width: 90px;
-                height: 90px;
-                min-width: 90px;
-            }
+            .page8-gif-row img { width: 90px; height: 90px; min-width: 90px; }
         }
-
-        /* Very small phones */
         @media (max-width: 390px) {
-            .page8-gif-row {
-                justify-content: flex-start;
-            }
-
-            .page8-gif-row img {
-                width: 42px;
-                height: 42px;
-                min-width: 42px;
-            }
+            .page8-gif-row { justify-content: flex-start; }
+            .page8-gif-row img { width: 42px; height: 42px; min-width: 42px; }
         }
-
-        /* =====================================================
-           IMAGE PROTECTION / DETER SAVING
-           This does NOT make web images impossible to copy.
-           ===================================================== */
-
         .protected-media {
             -webkit-user-drag: none !important;
             user-drag: none !important;
             -webkit-touch-callout: none !important;
-            pointer-events: none !important;
         }
-
         .media-protection-layer {
             position: absolute;
             inset: 0;
             z-index: 5;
             background: transparent;
+            pointer-events: none;
         }
-
-        /* Admin modal must remain interactive */
-        #admin-modal,
-        #admin-modal * {
+        #admin-modal, #admin-modal * {
             -webkit-user-select: text;
             user-select: text;
         }
@@ -263,99 +156,53 @@
 <body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between font-sans">
 
 <main class="flex-1 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 lg:p-8 w-full">
-
     <div class="w-full max-w-md sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-6xl bg-slate-800/80 rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden backdrop-blur-md">
 
-        <!-- HEADER -->
         <div class="p-3 sm:p-4 md:p-5 text-center border-b border-slate-700/50">
-            <h1 id="gallery-title"
-                class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-wide text-slate-100">
+            <h1 id="gallery-title" class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold tracking-wide text-slate-100">
                 Gambar bogel danial
             </h1>
-
             <p class="text-[10px] sm:text-xs text-slate-400 mt-1">
                 Sila tunggu sebentar, gambar sedang dimuatkan...
             </p>
         </div>
 
-        <!-- GALLERY -->
         <div class="p-2 sm:p-3 md:p-4 lg:p-5 bg-slate-900/40">
-
             <div class="gallery-stage">
-
-                <!-- PAGE 8 GIF TOP -->
                 <div id="page8-gifs-top" class="page8-gif-row"></div>
 
                 <div class="main-and-side">
+                    <div id="left-thumbs" class="side-thumbs side-preview flex flex-col gap-1.5 sm:gap-2"></div>
 
-                    <!-- NORMAL LEFT THUMBNAILS -->
-                    <div id="left-thumbs"
-                         class="side-thumbs side-preview flex flex-col gap-1.5 sm:gap-2">
-                    </div>
-
-                    <!-- MAIN IMAGE -->
-                    <div class="main-image-wrap">
-
-                        <img id="slideshow-image"
-                             src=""
-                             alt="Promosi"
-                             class="fade-enter fade-enter-active protected-media">
-
+                    <div class="main-image-wrap" id="main-image-click">
+                        <img id="slideshow-image" src="" alt="Promosi" class="fade-enter fade-enter-active protected-media">
                         <div class="media-protection-layer"></div>
-
                         <div class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-black/60 text-white text-[10px] sm:text-xs px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full backdrop-blur-md border border-white/10 z-10">
-                            <span id="current-slide-num">1</span>
-                            /
-                            <span id="total-slides-num">1</span>
+                            <span id="current-slide-num">1</span> / <span id="total-slides-num">1</span>
                         </div>
                     </div>
 
-                    <!-- NORMAL RIGHT THUMBNAILS -->
-                    <div id="right-thumbs"
-                         class="side-thumbs side-preview flex flex-col gap-1.5 sm:gap-2">
-                    </div>
-
+                    <div id="right-thumbs" class="side-thumbs side-preview flex flex-col gap-1.5 sm:gap-2"></div>
                 </div>
 
-                <!-- MOBILE NORMAL THUMBNAILS -->
-                <div id="mobile-bottom-thumbs"
-                     class="mobile-bottom-thumbs thumbs-scroll gap-1.5 overflow-x-auto py-1">
-                </div>
-
-                <!-- PAGE 8 GIF BOTTOM -->
+                <div id="mobile-bottom-thumbs" class="mobile-bottom-thumbs thumbs-scroll gap-1.5 overflow-x-auto py-1"></div>
                 <div id="page8-gifs-bottom" class="page8-gif-row"></div>
-
             </div>
         </div>
 
-        <!-- NORMAL BOTTOM THUMBNAILS -->
         <div class="px-2 sm:px-3 md:px-4 pb-2 sm:pb-3">
-            <div id="bottom-thumbs"
-                 class="thumbs-scroll flex gap-1.5 sm:gap-2 overflow-x-auto py-1">
-            </div>
+            <div id="bottom-thumbs" class="thumbs-scroll flex gap-1.5 sm:gap-2 overflow-x-auto py-1"></div>
         </div>
 
-        <!-- PROGRESS -->
         <div class="p-3 sm:p-4 md:p-5 space-y-2 sm:space-y-3 border-t border-slate-700/40">
-
             <div class="w-full bg-slate-700/60 h-1.5 sm:h-2 rounded-full overflow-hidden">
-                <div id="progress-bar"
-                     class="bg-indigo-500 h-full w-0 progress-bar-fill">
-                </div>
+                <div id="progress-bar" class="bg-indigo-500 h-full w-0 progress-bar-fill"></div>
             </div>
-
             <div class="flex justify-between items-center text-[11px] sm:text-xs text-slate-400">
-                <span>
-                    Masa Tinggal:
-                    <strong id="countdown-text" class="text-slate-200">0s</strong>
-                </span>
-
-                <span class="animate-pulse text-indigo-400">
-                    Memproses...
-                </span>
+                <span>Masa Tinggal: <strong id="countdown-text" class="text-slate-200">0s</strong></span>
+                <span class="animate-pulse text-indigo-400">Memproses...</span>
             </div>
         </div>
-
     </div>
 </main>
 
@@ -363,968 +210,445 @@
     &copy; <span id="year"></span> kontol danial
 </footer>
 
-
-<!-- =========================================================
-     ADMIN MODAL
-     ========================================================= -->
-
-<div id="admin-modal"
-     class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-
+<div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
     <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg p-5 sm:p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-
         <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-            <h2 class="text-lg font-bold text-indigo-400">
-                ⚙️ Borang Tetapan (Admin)
-            </h2>
-
-            <button id="close-admin-btn"
-                    class="text-slate-400 hover:text-white text-xl font-bold">
-                &times;
-            </button>
+            <h2 class="text-lg font-bold text-indigo-400">⚙️ Borang Tetapan (Admin)</h2>
+            <button id="close-admin-btn" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
         </div>
 
         <form id="config-form" class="space-y-4 text-sm">
-
             <div>
-                <label class="block font-medium text-slate-200 mb-1">
-                    Pautan Destinasi (Shopee Link):
-                </label>
-
-                <input type="url"
-                       id="input-target-url"
-                       required
+                <label class="block font-medium text-slate-200 mb-1">Pautan Default (kalau gambar tak ada link sendiri):</label>
+                <input type="url" id="input-target-url" required
                        class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
             </div>
 
             <div>
                 <label class="block font-medium text-slate-200 mb-1">
-                    Pautan Gambar Slideshow (1 Link Per Baris):
+                    Gambar Slideshow (1 baris = 1 gambar)<br>
+                    <span class="text-xs text-slate-400">Format: nama-gambar.jpeg|https://link-shopee</span>
                 </label>
+                <textarea id="input-images" rows="5" required
+                          class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                          placeholder="IMG_2080.jpeg|https://s.shopee.com.my/xxxx"></textarea>
+            </div>
 
-                <textarea id="input-images"
-                          rows="4"
-                          required
+            <div>
+                <label class="block font-medium text-slate-200 mb-1">
+                    Gambar Preview Kiri/Kanan/Bawah<br>
+                    <span class="text-xs text-slate-400">Format sama: nama.jpeg|https://link</span>
+                </label>
+                <textarea id="input-preview-images" rows="5"
                           class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
             </div>
 
             <div>
                 <label class="block font-medium text-slate-200 mb-1">
-                    Pautan Gambar Preview Kiri/Kanan/Bawah:
+                    🎞️ GIF Page 8<br>
+                    <span class="text-xs text-slate-400">Format sama: nama.gif|https://link</span>
                 </label>
-
-                <textarea id="input-preview-images"
-                          rows="5"
+                <textarea id="input-page8-gifs" rows="6"
                           class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-
-                <p class="text-xs text-slate-400 mt-1">
-                    Gambar kecil biasa. Auto shuffle setiap reload.
-                </p>
-            </div>
-
-            <div>
-                <label class="block font-medium text-slate-200 mb-1">
-                    🎞️ GIF Khas Page 8:
-                </label>
-
-                <textarea id="input-page8-gifs"
-                          rows="9"
-                          class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-
-                <p class="text-xs text-slate-400 mt-1">
-                    GIF dipaparkan di atas dan bawah gambar utama.
-                    Jika terlalu banyak, baris boleh digelongsor secara mendatar.
-                </p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-
                 <div>
-                    <label class="block font-medium text-slate-200 mb-1">
-                        Masa Sedia (Saat):
-                    </label>
-
-                    <input type="number"
-                           id="input-slide-duration"
-                           min="1"
-                           max="30"
-                           value="3"
-                           required
+                    <label class="block font-medium text-slate-200 mb-1">Masa Sedia (Saat):</label>
+                    <input type="number" id="input-slide-duration" min="1" max="30" value="3" required
                            class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
-
                 <div>
-                    <label class="block font-medium text-slate-200 mb-1">
-                        Tajuk Halaman:
-                    </label>
-
-                    <input type="text"
-                           id="input-page-title"
-                           required
+                    <label class="block font-medium text-slate-200 mb-1">Tajuk Halaman:</label>
+                    <input type="text" id="input-page-title" required
                            class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
-
             </div>
 
             <div class="flex gap-3 pt-2">
-
-                <button type="submit"
-                        class="flex-1 bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-lg text-white">
-                    Simpan
-                </button>
-
-                <button type="button"
-                        id="reset-default-btn"
-                        class="bg-slate-700 hover:bg-slate-600 px-4 py-2.5 rounded-lg text-slate-300">
-                    Reset
-                </button>
-
+                <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-lg text-white">Simpan</button>
+                <button type="button" id="reset-default-btn" class="bg-slate-700 hover:bg-slate-600 px-4 py-2.5 rounded-lg text-slate-300">Reset</button>
             </div>
-
         </form>
     </div>
 </div>
 
-
 <script>
-    /* =========================================================
-       YEAR
-       ========================================================= */
-
-    document.getElementById('year').textContent =
-        new Date().getFullYear();
-
-
-    /* =========================================================
-       DEFAULT CONFIG
-       ========================================================= */
+    document.getElementById('year').textContent = new Date().getFullYear();
 
     const DEFAULT_CONFIG = {
-
-        targetUrl: "SHOPEE",
-
+        targetUrl: "https://s.shopee.com.my/5q8YfpcrjR",
         pageTitle: "Tawaran Khas Hari Ini",
-
         slideDuration: 3,
-
         images: [
-            "IMG_2080.jpeg",
-            "IMG_2081.jpeg",
-            "IMG_2082.jpeg",
-            "IMG_2083.jpeg",
-            "IMG_2084.jpeg",
-            "IMG_2085.jpeg",
-            "IMG_2086.jpeg",
-            "IMG_2087.jpeg"
+            { src: "IMG_2080.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2081.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2082.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2083.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2084.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2085.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2086.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2087.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ],
-
         previewImages: [
-            "IMG_2080.jpeg",
-            "IMG_2081.jpeg",
-            "IMG_2082.jpeg",
-            "IMG_2083.jpeg",
-            "IMG_2084.jpeg",
-            "IMG_2085.jpeg",
-            "IMG_2086.jpeg",
-            "IMG_2087.jpeg",
-            "IMG_2088.jpeg",
-            "IMG_2089.jpeg",
-            "IMG_2090.jpeg",
-            "IMG_2091.jpeg",
-            "IMG_2092.jpeg",
-            "IMG_2093.jpeg",
-            "IMG_2094.jpeg",
-            "IMG_2095.jpeg",
-            "IMG_2096.jpeg",
-            "IMG_2097.jpeg",
-            "IMG_2098.jpeg",
-            "IMG_2099.jpeg",
-            "IMG_2101.jpeg",
-            "IMG_2102.jpeg"
+            { src: "IMG_2080.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2081.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2082.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2083.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2084.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2085.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2086.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2087.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2088.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2089.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2090.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2091.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2092.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2093.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2094.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2095.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2096.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2097.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2098.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2099.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2101.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2102.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ],
-
         page8Gifs: [
-            "IMG_2106.gif",
-            "IMG_2109.gif",
-            "IMG_2110.gif",
-            "IMG_2111.gif",
-            "IMG_2112.gif",
-            "IMG_2113.gif",
-            "IMG_2114.gif",
-            "IMG_2115.gif",
-            "IMG_2116.gif",
-            "IMG_2122.gif",
-            "IMG_2123.gif",
-            "IMG_2124.gif",
-            "IMG_2125.gif",
-            "IMG_2126.gif",
-            "IMG_2127.gif",
-            "IMG_2128.gif"
+            { src: "IMG_2106.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2109.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2110.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2111.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2112.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2113.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2114.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2115.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2116.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2122.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2123.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2124.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2125.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2126.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2127.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2128.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ]
     };
 
-
-    /* =========================================================
-       LOAD CONFIG
-       ========================================================= */
-
-    function loadConfig() {
-
-        const saved =
-            localStorage.getItem('site_config');
-
-        if (!saved) {
-            return { ...DEFAULT_CONFIG };
-        }
-
-        try {
-
-            const parsed =
-                JSON.parse(saved);
-
-            if (!Array.isArray(parsed.images)) {
-                parsed.images = DEFAULT_CONFIG.images;
-            }
-
-            if (!Array.isArray(parsed.previewImages)) {
-                parsed.previewImages = DEFAULT_CONFIG.previewImages;
-            }
-
-            if (!Array.isArray(parsed.page8Gifs)) {
-                parsed.page8Gifs = DEFAULT_CONFIG.page8Gifs;
-            }
-
-            return {
-                ...DEFAULT_CONFIG,
-                ...parsed
-            };
-
-        } catch (e) {
-
-            return { ...DEFAULT_CONFIG };
-
-        }
+    function parseLine(line, defaultUrl) {
+        const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+        if (!parts.length) return null;
+        return {
+            src: parts[0],
+            url: parts[1] || defaultUrl
+        };
     }
 
+    function linesToObjects(text, defaultUrl) {
+        return text.split('\n')
+            .map(l => parseLine(l, defaultUrl))
+            .filter(Boolean);
+    }
+
+    function objectsToLines(arr) {
+        return (arr || []).map(item => {
+            if (typeof item === 'string') return item;
+            return item.url && item.url !== DEFAULT_CONFIG.targetUrl
+                ? `${item.src}|${item.url}`
+                : item.src;
+        }).join('\n');
+    }
+
+    function loadConfig() {
+        const saved = localStorage.getItem('site_config');
+        if (!saved) return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+
+        try {
+            const parsed = JSON.parse(saved);
+
+            // Support old format (string array) → convert
+            const convert = (arr, defaultUrl) => {
+                if (!Array.isArray(arr)) return [];
+                return arr.map(item => {
+                    if (typeof item === 'string') return { src: item, url: defaultUrl };
+                    return item;
+                });
+            };
+
+            const defaultUrl = parsed.targetUrl || DEFAULT_CONFIG.targetUrl;
+
+            return {
+                targetUrl: defaultUrl,
+                pageTitle: parsed.pageTitle || DEFAULT_CONFIG.pageTitle,
+                slideDuration: parsed.slideDuration || 3,
+                images: convert(parsed.images, defaultUrl),
+                previewImages: convert(parsed.previewImages, defaultUrl),
+                page8Gifs: convert(parsed.page8Gifs, defaultUrl)
+            };
+        } catch (e) {
+            return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+        }
+    }
 
     let config = loadConfig();
 
-
-    /* =========================================================
-       DOM
-       ========================================================= */
-
-    const imgElement =
-        document.getElementById('slideshow-image');
-
-    const currentSlideNum =
-        document.getElementById('current-slide-num');
-
-    const totalSlidesNum =
-        document.getElementById('total-slides-num');
-
-    const progressBar =
-        document.getElementById('progress-bar');
-
-    const countdownText =
-        document.getElementById('countdown-text');
-
-    const galleryTitle =
-        document.getElementById('gallery-title');
-
-    const leftThumbs =
-        document.getElementById('left-thumbs');
-
-    const rightThumbs =
-        document.getElementById('right-thumbs');
-
-    const bottomThumbs =
-        document.getElementById('bottom-thumbs');
-
-    const mobileBottomThumbs =
-        document.getElementById('mobile-bottom-thumbs');
-
-    const page8GifsTop =
-        document.getElementById('page8-gifs-top');
-
-    const page8GifsBottom =
-        document.getElementById('page8-gifs-bottom');
-
-    const adminModal =
-        document.getElementById('admin-modal');
-
-    const configForm =
-        document.getElementById('config-form');
-
-    const inputTargetUrl =
-        document.getElementById('input-target-url');
-
-    const inputImages =
-        document.getElementById('input-images');
-
-    const inputPreviewImages =
-        document.getElementById('input-preview-images');
-
-    const inputPage8Gifs =
-        document.getElementById('input-page8-gifs');
-
-    const inputSlideDuration =
-        document.getElementById('input-slide-duration');
-
-    const inputPageTitle =
-        document.getElementById('input-page-title');
-
-    const closeAdminBtn =
-        document.getElementById('close-admin-btn');
-
-    const resetDefaultBtn =
-        document.getElementById('reset-default-btn');
-
-
-    /* =========================================================
-       VARIABLES
-       ========================================================= */
+    const imgElement = document.getElementById('slideshow-image');
+    const currentSlideNum = document.getElementById('current-slide-num');
+    const totalSlidesNum = document.getElementById('total-slides-num');
+    const progressBar = document.getElementById('progress-bar');
+    const countdownText = document.getElementById('countdown-text');
+    const galleryTitle = document.getElementById('gallery-title');
+    const leftThumbs = document.getElementById('left-thumbs');
+    const rightThumbs = document.getElementById('right-thumbs');
+    const bottomThumbs = document.getElementById('bottom-thumbs');
+    const mobileBottomThumbs = document.getElementById('mobile-bottom-thumbs');
+    const page8GifsTop = document.getElementById('page8-gifs-top');
+    const page8GifsBottom = document.getElementById('page8-gifs-bottom');
+    const adminModal = document.getElementById('admin-modal');
+    const configForm = document.getElementById('config-form');
+    const inputTargetUrl = document.getElementById('input-target-url');
+    const inputImages = document.getElementById('input-images');
+    const inputPreviewImages = document.getElementById('input-preview-images');
+    const inputPage8Gifs = document.getElementById('input-page8-gifs');
+    const inputSlideDuration = document.getElementById('input-slide-duration');
+    const inputPageTitle = document.getElementById('input-page-title');
+    const closeAdminBtn = document.getElementById('close-admin-btn');
+    const resetDefaultBtn = document.getElementById('reset-default-btn');
+    const mainImageClick = document.getElementById('main-image-click');
 
     let currentSlideIndex = 0;
-
-    let totalSlides =
-        config.images.length;
-
-    let totalDuration =
-        totalSlides * config.slideDuration;
-
+    let totalSlides = config.images.length;
+    let totalDuration = totalSlides * config.slideDuration;
     let progressTimer = null;
+    let currentMainUrl = config.targetUrl;
 
     const SIDE_COUNT = 5;
-
     const BOTTOM_COUNT = 30;
 
-
-    /* =========================================================
-       SHUFFLE
-       ========================================================= */
+    function goToLink(url) {
+        window.location.href = url || config.targetUrl;
+    }
 
     function shuffleArray(arr) {
-
         const a = [...arr];
-
         for (let i = a.length - 1; i > 0; i--) {
-
-            const j =
-                Math.floor(Math.random() * (i + 1));
-
-            [a[i], a[j]] =
-                [a[j], a[i]];
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
         }
-
         return a;
     }
 
-
-    /* =========================================================
-       PROTECT IMAGE ELEMENT
-       ========================================================= */
-
     function protectImage(img) {
-
         img.classList.add('protected-media');
-
         img.draggable = false;
-
-        img.addEventListener('dragstart', function(e) {
-            e.preventDefault();
-        });
-
-        img.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        img.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-        });
-
-        img.addEventListener('touchstart', function() {}, {
-            passive: true
-        });
+        img.addEventListener('dragstart', e => e.preventDefault());
+        img.addEventListener('contextmenu', e => e.preventDefault());
+        img.addEventListener('selectstart', e => e.preventDefault());
     }
 
-
-    /* =========================================================
-       NORMAL THUMB
-       ========================================================= */
-
-    function createThumbElement(url, sizeClass) {
-
-        const img =
-            document.createElement('img');
-
-        img.src = url;
-
+    function createThumbElement(item, sizeClass) {
+        const img = document.createElement('img');
+        img.src = item.src;
         img.alt = 'Preview';
-
         img.loading = 'lazy';
-
         img.draggable = false;
-
-        img.className =
-            `thumb-preview ${sizeClass} object-cover rounded-md border border-slate-600/60 bg-slate-900 cursor-default opacity-90 hover:opacity-100 protected-media`;
-
-        img.onerror = function() {
-            this.style.display = 'none';
-        };
-
+        img.className = `thumb-preview ${sizeClass} object-cover rounded-md border border-slate-600/60 bg-slate-900 opacity-90 hover:opacity-100 protected-media`;
+        img.onerror = function() { this.style.display = 'none'; };
         protectImage(img);
-
+        img.addEventListener('click', () => goToLink(item.url));
         return img;
     }
 
-
-    /* =========================================================
-       NORMAL PREVIEWS
-       ========================================================= */
-
     function renderPreviews() {
-
         leftThumbs.innerHTML = '';
-
         rightThumbs.innerHTML = '';
-
         bottomThumbs.innerHTML = '';
-
         mobileBottomThumbs.innerHTML = '';
 
-        let pool =
-            Array.isArray(config.previewImages)
-                ? [...config.previewImages]
-                : [];
-
-        if (!pool.length) {
-            return;
-        }
+        let pool = Array.isArray(config.previewImages) ? [...config.previewImages] : [];
+        if (!pool.length) return;
 
         pool = shuffleArray(pool);
 
-        while (
-            pool.length <
-            SIDE_COUNT * 2 + BOTTOM_COUNT
-        ) {
-            pool = pool.concat(
-                shuffleArray(config.previewImages)
-            );
+        while (pool.length < SIDE_COUNT * 2 + BOTTOM_COUNT) {
+            pool = pool.concat(shuffleArray(config.previewImages));
         }
 
-        const sideClass =
-            'w-full aspect-square';
-
+        const sideClass = 'w-full aspect-square';
         for (let i = 0; i < SIDE_COUNT; i++) {
-
-            leftThumbs.appendChild(
-                createThumbElement(
-                    pool[i],
-                    sideClass
-                )
-            );
+            leftThumbs.appendChild(createThumbElement(pool[i], sideClass));
         }
-
         for (let i = 0; i < SIDE_COUNT; i++) {
-
-            rightThumbs.appendChild(
-                createThumbElement(
-                    pool[SIDE_COUNT + i],
-                    sideClass
-                )
-            );
+            rightThumbs.appendChild(createThumbElement(pool[SIDE_COUNT + i], sideClass));
         }
 
-        const bottomClass =
-            'w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 shrink-0';
-
+        const bottomClass = 'w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 shrink-0';
         for (let i = 0; i < BOTTOM_COUNT; i++) {
-
-            const thumb =
-                createThumbElement(
-                    pool[SIDE_COUNT * 2 + i],
-                    bottomClass
-                );
-
-            bottomThumbs.appendChild(thumb.cloneNode(true));
-            mobileBottomThumbs.appendChild(thumb);
+            const item = pool[SIDE_COUNT * 2 + i];
+            bottomThumbs.appendChild(createThumbElement(item, bottomClass));
+            mobileBottomThumbs.appendChild(createThumbElement(item, bottomClass));
         }
     }
 
-
-    /* =========================================================
-       CREATE GIF
-       ========================================================= */
-
-    function createGifElement(url) {
-
-        const img =
-            document.createElement('img');
-
-        img.src = url;
-
-        img.alt = 'GIF Page 8';
-
+    function createGifElement(item) {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = 'GIF';
         img.loading = 'lazy';
-
         img.draggable = false;
-
-        img.className =
-            'protected-media';
-
-        img.onerror = function() {
-            this.style.display = 'none';
-        };
-
+        img.className = 'protected-media';
+        img.onerror = function() { this.style.display = 'none'; };
         protectImage(img);
-
+        img.addEventListener('click', () => goToLink(item.url));
         return img;
     }
 
-
-    /* =========================================================
-       PAGE 8 GIFS
-       ========================================================= */
-
     function renderPage8Gifs() {
-
         page8GifsTop.innerHTML = '';
-
         page8GifsBottom.innerHTML = '';
-
         page8GifsTop.classList.remove('gif-visible');
-
         page8GifsBottom.classList.remove('gif-visible');
 
-        if (currentSlideIndex !== 7) {
-            return;
-        }
+        if (currentSlideIndex !== 7) return;
 
-        const gifs =
-            Array.isArray(config.page8Gifs)
-                ? [...config.page8Gifs]
-                : [];
+        const gifs = Array.isArray(config.page8Gifs) ? [...config.page8Gifs] : [];
+        if (!gifs.length) return;
 
-        if (!gifs.length) {
-            return;
-        }
-
-        /*
-         * Semua GIF diagihkan antara BARIS ATAS dan BARIS BAWAH.
-         * 16 GIF = 8 atas + 8 bawah.
-         */
-
-        const half =
-            Math.ceil(gifs.length / 2);
-
-        const topGifs =
-            gifs.slice(0, half);
-
-        const bottomGifs =
-            gifs.slice(half);
-
-        topGifs.forEach(url => {
-
-            page8GifsTop.appendChild(
-                createGifElement(url)
-            );
-
-        });
-
-        bottomGifs.forEach(url => {
-
-            page8GifsBottom.appendChild(
-                createGifElement(url)
-            );
-
-        });
+        const half = Math.ceil(gifs.length / 2);
+        gifs.slice(0, half).forEach(item => page8GifsTop.appendChild(createGifElement(item)));
+        gifs.slice(half).forEach(item => page8GifsBottom.appendChild(createGifElement(item)));
 
         page8GifsTop.classList.add('gif-visible');
-
         page8GifsBottom.classList.add('gif-visible');
     }
 
-
-    /* =========================================================
-       INIT
-       ========================================================= */
-
     function initPublicPage() {
-
-        galleryTitle.textContent =
-            config.pageTitle;
-
-        totalSlides =
-            config.images.length;
-
-        totalSlidesNum.textContent =
-            totalSlides;
-
+        galleryTitle.textContent = config.pageTitle;
+        totalSlides = config.images.length;
+        totalSlidesNum.textContent = totalSlides;
         currentSlideIndex = 0;
-
-        totalDuration =
-            totalSlides * config.slideDuration;
-
+        totalDuration = totalSlides * config.slideDuration;
         progressBar.style.width = '0%';
 
         if (totalSlides > 0) {
-
-            imgElement.src =
-                config.images[0];
-
+            imgElement.src = config.images[0].src;
+            currentMainUrl = config.images[0].url;
             currentSlideNum.textContent = '1';
         }
 
         renderPreviews();
-
         renderPage8Gifs();
-
         startSlideshowAndRedirect();
     }
 
-
-    /* =========================================================
-       CHANGE SLIDE
-       ========================================================= */
-
     function changeSlide(index) {
-
-        imgElement.classList.remove(
-            'fade-enter-active'
-        );
-
+        imgElement.classList.remove('fade-enter-active');
         setTimeout(() => {
-
-            imgElement.src =
-                config.images[index];
-
-            currentSlideNum.textContent =
-                index + 1;
-
-            currentSlideIndex =
-                index;
-
+            const item = config.images[index];
+            imgElement.src = item.src;
+            currentMainUrl = item.url;
+            currentSlideNum.textContent = index + 1;
+            currentSlideIndex = index;
             renderPage8Gifs();
-
-            imgElement.classList.add(
-                'fade-enter-active'
-            );
-
+            imgElement.classList.add('fade-enter-active');
         }, 120);
     }
 
-
-    /* =========================================================
-       SLIDESHOW
-       ========================================================= */
-
     function startSlideshowAndRedirect() {
-
         clearInterval(progressTimer);
+        const startTime = Date.now();
+        const totalMs = totalDuration * 1000;
 
-        const startTime =
-            Date.now();
+        progressTimer = setInterval(() => {
+            const elapsedMs = Date.now() - startTime;
+            const remainingMs = Math.max(0, totalMs - elapsedMs);
 
-        const totalMs =
-            totalDuration * 1000;
+            countdownText.textContent = `${Math.ceil(remainingMs / 1000)}s`;
+            progressBar.style.width = `${Math.min(100, (elapsedMs / totalMs) * 100)}%`;
 
-        progressTimer =
-            setInterval(() => {
+            const calculatedIndex = Math.min(
+                totalSlides - 1,
+                Math.floor(elapsedMs / (config.slideDuration * 1000))
+            );
 
-                const elapsedMs =
-                    Date.now() - startTime;
+            if (calculatedIndex !== currentSlideIndex) {
+                currentSlideIndex = calculatedIndex;
+                changeSlide(currentSlideIndex);
+            }
 
-                const remainingMs =
-                    Math.max(
-                        0,
-                        totalMs - elapsedMs
-                    );
-
-                countdownText.textContent =
-                    `${Math.ceil(
-                        remainingMs / 1000
-                    )}s`;
-
-                progressBar.style.width =
-                    `${Math.min(
-                        100,
-                        (elapsedMs / totalMs) * 100
-                    )}%`;
-
-                const calculatedIndex =
-                    Math.min(
-                        totalSlides - 1,
-                        Math.floor(
-                            elapsedMs /
-                            (config.slideDuration * 1000)
-                        )
-                    );
-
-                if (
-                    calculatedIndex !==
-                    currentSlideIndex
-                ) {
-
-                    currentSlideIndex =
-                        calculatedIndex;
-
-                    changeSlide(
-                        currentSlideIndex
-                    );
-                }
-
-                if (remainingMs <= 0) {
-
-                    clearInterval(
-                        progressTimer
-                    );
-
-                    window.location.href =
-                        config.targetUrl;
-                }
-
-            }, 100);
+            if (remainingMs <= 0) {
+                clearInterval(progressTimer);
+                goToLink(currentMainUrl);
+            }
+        }, 100);
     }
-
-
-    /* =========================================================
-       ADMIN
-       ========================================================= */
 
     function openAdminModal() {
-
-        inputTargetUrl.value =
-            config.targetUrl || '';
-
-        inputImages.value =
-            (config.images || []).join('\n');
-
-        inputPreviewImages.value =
-            (config.previewImages || []).join('\n');
-
-        inputPage8Gifs.value =
-            (config.page8Gifs || []).join('\n');
-
-        inputSlideDuration.value =
-            config.slideDuration || 3;
-
-        inputPageTitle.value =
-            config.pageTitle || '';
-
-        adminModal.classList.remove(
-            'hidden'
-        );
+        inputTargetUrl.value = config.targetUrl || '';
+        inputImages.value = objectsToLines(config.images);
+        inputPreviewImages.value = objectsToLines(config.previewImages);
+        inputPage8Gifs.value = objectsToLines(config.page8Gifs);
+        inputSlideDuration.value = config.slideDuration || 3;
+        inputPageTitle.value = config.pageTitle || '';
+        adminModal.classList.remove('hidden');
     }
 
+    closeAdminBtn.addEventListener('click', () => adminModal.classList.add('hidden'));
 
-    closeAdminBtn.addEventListener(
-        'click',
-        () => {
-            adminModal.classList.add('hidden');
+    document.addEventListener('keydown', e => {
+        if (e.shiftKey && e.key.toLowerCase() === 'a') openAdminModal();
+    });
+
+    window.addEventListener('hashchange', () => {
+        if (location.hash === '#admin') openAdminModal();
+    });
+    if (location.hash === '#admin') openAdminModal();
+
+    configForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const defaultUrl = inputTargetUrl.value.trim() || "https://s.shopee.com.my/5q8YfpcrjR";
+        const rawImages = linesToObjects(inputImages.value, defaultUrl);
+
+        if (!rawImages.length) {
+            alert('Sila masukkan sekurang-kurangnya satu gambar slideshow!');
+            return;
         }
-    );
 
+        config = {
+            targetUrl: defaultUrl,
+            pageTitle: inputPageTitle.value.trim(),
+            slideDuration: parseInt(inputSlideDuration.value, 10) || 3,
+            images: rawImages,
+            previewImages: linesToObjects(inputPreviewImages.value, defaultUrl),
+            page8Gifs: linesToObjects(inputPage8Gifs.value, defaultUrl)
+        };
 
-    document.addEventListener(
-        'keydown',
-        e => {
+        localStorage.setItem('site_config', JSON.stringify(config));
+        adminModal.classList.add('hidden');
+        initPublicPage();
+        alert('Tetapan berjaya disimpan!');
+    });
 
-            if (
-                e.shiftKey &&
-                e.key.toLowerCase() === 'a'
-            ) {
-                openAdminModal();
-            }
-
-        }
-    );
-
-
-    window.addEventListener(
-        'hashchange',
-        () => {
-
-            if (
-                location.hash === '#admin'
-            ) {
-                openAdminModal();
-            }
-
-        }
-    );
-
-
-    if (
-        location.hash === '#admin'
-    ) {
-        openAdminModal();
-    }
-
-
-    /* =========================================================
-       SAVE CONFIG
-       ========================================================= */
-
-    configForm.addEventListener(
-        'submit',
-        e => {
-
-            e.preventDefault();
-
-            const rawImages =
-                inputImages.value
-                    .split('\n')
-                    .map(u => u.trim())
-                    .filter(Boolean);
-
-            if (!rawImages.length) {
-
-                alert(
-                    'Sila masukkan sekurang-kurangnya satu gambar slideshow!'
-                );
-
-                return;
-            }
-
-            const rawPreview =
-                inputPreviewImages.value
-                    .split('\n')
-                    .map(u => u.trim())
-                    .filter(Boolean);
-
-            const rawPage8Gifs =
-                inputPage8Gifs.value
-                    .split('\n')
-                    .map(u => u.trim())
-                    .filter(Boolean);
-
-            config = {
-
-                targetUrl:
-                    inputTargetUrl.value.trim(),
-
-                pageTitle:
-                    inputPageTitle.value.trim(),
-
-                slideDuration:
-                    parseInt(
-                        inputSlideDuration.value,
-                        10
-                    ) || 3,
-
-                images:
-                    rawImages,
-
-                previewImages:
-                    rawPreview,
-
-                page8Gifs:
-                    rawPage8Gifs
-            };
-
-            localStorage.setItem(
-                'site_config',
-                JSON.stringify(config)
-            );
-
-            adminModal.classList.add(
-                'hidden'
-            );
-
+    resetDefaultBtn.addEventListener('click', () => {
+        if (confirm('Adakah anda pasti mahu mereset semua tetapan?')) {
+            localStorage.removeItem('site_config');
+            config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+            openAdminModal();
             initPublicPage();
-
-            alert(
-                'Tetapan berjaya disimpan!'
-            );
         }
-    );
+    });
 
+    mainImageClick.addEventListener('click', () => goToLink(currentMainUrl));
 
-    /* =========================================================
-       RESET
-       ========================================================= */
-
-    resetDefaultBtn.addEventListener(
-        'click',
-        () => {
-
-            if (
-                confirm(
-                    'Adakah anda pasti mahu mereset semua tetapan?'
-                )
-            ) {
-
-                localStorage.removeItem(
-                    'site_config'
-                );
-
-                config = {
-                    ...DEFAULT_CONFIG
-                };
-
-                openAdminModal();
-
-                initPublicPage();
-            }
-        }
-    );
-
-
-    /* =========================================================
-       GLOBAL IMAGE PROTECTION
-       ========================================================= */
-
-    document.addEventListener(
-        'contextmenu',
-        e => {
-
-            if (
-                e.target.tagName === 'IMG' ||
-                e.target.closest('img')
-            ) {
-                e.preventDefault();
-            }
-        }
-    );
-
-
-    document.addEventListener(
-        'dragstart',
-        e => {
-
-            if (
-                e.target.tagName === 'IMG' ||
-                e.target.closest('img')
-            ) {
-                e.preventDefault();
-            }
-        }
-    );
-
-
-    document.addEventListener(
-        'selectstart',
-        e => {
-
-            if (
-                e.target.tagName === 'IMG' ||
-                e.target.closest('img')
-            ) {
-                e.preventDefault();
-            }
-        }
-    );
-
-
-    /* =========================================================
-       START
-       ========================================================= */
+    document.addEventListener('contextmenu', e => {
+        if (e.target.tagName === 'IMG' || e.target.closest('img')) e.preventDefault();
+    });
+    document.addEventListener('dragstart', e => {
+        if (e.target.tagName === 'IMG' || e.target.closest('img')) e.preventDefault();
+    });
 
     protectImage(imgElement);
-
     initPublicPage();
-
 </script>
 
 </body>
