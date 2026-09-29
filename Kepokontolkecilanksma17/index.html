@@ -146,10 +146,6 @@
             background: transparent;
             pointer-events: none;
         }
-        #admin-modal, #admin-modal * {
-            -webkit-user-select: text;
-            user-select: text;
-        }
     </style>
 </head>
 
@@ -210,73 +206,10 @@
     &copy; <span id="year"></span> kontol danial
 </footer>
 
-<div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg p-5 sm:p-6 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
-        <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-            <h2 class="text-lg font-bold text-indigo-400">⚙️ Borang Tetapan (Admin)</h2>
-            <button id="close-admin-btn" class="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
-        </div>
-
-        <form id="config-form" class="space-y-4 text-sm">
-            <div>
-                <label class="block font-medium text-slate-200 mb-1">Pautan Default (kalau gambar tak ada link sendiri):</label>
-                <input type="url" id="input-target-url" required
-                       class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            </div>
-
-            <div>
-                <label class="block font-medium text-slate-200 mb-1">
-                    Gambar Slideshow (1 baris = 1 gambar)<br>
-                    <span class="text-xs text-slate-400">Format: nama-gambar.jpeg|https://link-shopee</span>
-                </label>
-                <textarea id="input-images" rows="5" required
-                          class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                          placeholder="IMG_2080.jpeg|https://s.shopee.com.my/xxxx"></textarea>
-            </div>
-
-            <div>
-                <label class="block font-medium text-slate-200 mb-1">
-                    Gambar Preview Kiri/Kanan/Bawah<br>
-                    <span class="text-xs text-slate-400">Format sama: nama.jpeg|https://link</span>
-                </label>
-                <textarea id="input-preview-images" rows="5"
-                          class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-            </div>
-
-            <div>
-                <label class="block font-medium text-slate-200 mb-1">
-                    🎞️ GIF Page 8<br>
-                    <span class="text-xs text-slate-400">Format sama: nama.gif|https://link</span>
-                </label>
-                <textarea id="input-page8-gifs" rows="6"
-                          class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="block font-medium text-slate-200 mb-1">Masa Sedia (Saat):</label>
-                    <input type="number" id="input-slide-duration" min="1" max="30" value="3" required
-                           class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-                <div>
-                    <label class="block font-medium text-slate-200 mb-1">Tajuk Halaman:</label>
-                    <input type="text" id="input-page-title" required
-                           class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-            </div>
-
-            <div class="flex gap-3 pt-2">
-                <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-lg text-white">Simpan</button>
-                <button type="button" id="reset-default-btn" class="bg-slate-700 hover:bg-slate-600 px-4 py-2.5 rounded-lg text-slate-300">Reset</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const DEFAULT_CONFIG = {
+    const config = {
         targetUrl: "https://s.shopee.com.my/5q8YfpcrjR",
         pageTitle: "Tawaran Khas Hari Ini",
         slideDuration: 3,
@@ -334,63 +267,6 @@
         ]
     };
 
-    function parseLine(line, defaultUrl) {
-        const parts = line.split('|').map(s => s.trim()).filter(Boolean);
-        if (!parts.length) return null;
-        return {
-            src: parts[0],
-            url: parts[1] || defaultUrl
-        };
-    }
-
-    function linesToObjects(text, defaultUrl) {
-        return text.split('\n')
-            .map(l => parseLine(l, defaultUrl))
-            .filter(Boolean);
-    }
-
-    function objectsToLines(arr) {
-        return (arr || []).map(item => {
-            if (typeof item === 'string') return item;
-            return item.url && item.url !== DEFAULT_CONFIG.targetUrl
-                ? `${item.src}|${item.url}`
-                : item.src;
-        }).join('\n');
-    }
-
-    function loadConfig() {
-        const saved = localStorage.getItem('site_config');
-        if (!saved) return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-
-        try {
-            const parsed = JSON.parse(saved);
-
-            // Support old format (string array) → convert
-            const convert = (arr, defaultUrl) => {
-                if (!Array.isArray(arr)) return [];
-                return arr.map(item => {
-                    if (typeof item === 'string') return { src: item, url: defaultUrl };
-                    return item;
-                });
-            };
-
-            const defaultUrl = parsed.targetUrl || DEFAULT_CONFIG.targetUrl;
-
-            return {
-                targetUrl: defaultUrl,
-                pageTitle: parsed.pageTitle || DEFAULT_CONFIG.pageTitle,
-                slideDuration: parsed.slideDuration || 3,
-                images: convert(parsed.images, defaultUrl),
-                previewImages: convert(parsed.previewImages, defaultUrl),
-                page8Gifs: convert(parsed.page8Gifs, defaultUrl)
-            };
-        } catch (e) {
-            return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-        }
-    }
-
-    let config = loadConfig();
-
     const imgElement = document.getElementById('slideshow-image');
     const currentSlideNum = document.getElementById('current-slide-num');
     const totalSlidesNum = document.getElementById('total-slides-num');
@@ -403,16 +279,6 @@
     const mobileBottomThumbs = document.getElementById('mobile-bottom-thumbs');
     const page8GifsTop = document.getElementById('page8-gifs-top');
     const page8GifsBottom = document.getElementById('page8-gifs-bottom');
-    const adminModal = document.getElementById('admin-modal');
-    const configForm = document.getElementById('config-form');
-    const inputTargetUrl = document.getElementById('input-target-url');
-    const inputImages = document.getElementById('input-images');
-    const inputPreviewImages = document.getElementById('input-preview-images');
-    const inputPage8Gifs = document.getElementById('input-page8-gifs');
-    const inputSlideDuration = document.getElementById('input-slide-duration');
-    const inputPageTitle = document.getElementById('input-page-title');
-    const closeAdminBtn = document.getElementById('close-admin-btn');
-    const resetDefaultBtn = document.getElementById('reset-default-btn');
     const mainImageClick = document.getElementById('main-image-click');
 
     let currentSlideIndex = 0;
@@ -581,62 +447,6 @@
             }
         }, 100);
     }
-
-    function openAdminModal() {
-        inputTargetUrl.value = config.targetUrl || '';
-        inputImages.value = objectsToLines(config.images);
-        inputPreviewImages.value = objectsToLines(config.previewImages);
-        inputPage8Gifs.value = objectsToLines(config.page8Gifs);
-        inputSlideDuration.value = config.slideDuration || 3;
-        inputPageTitle.value = config.pageTitle || '';
-        adminModal.classList.remove('hidden');
-    }
-
-    closeAdminBtn.addEventListener('click', () => adminModal.classList.add('hidden'));
-
-    document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.key.toLowerCase() === 'a') openAdminModal();
-    });
-
-    window.addEventListener('hashchange', () => {
-        if (location.hash === '#admin') openAdminModal();
-    });
-    if (location.hash === '#admin') openAdminModal();
-
-    configForm.addEventListener('submit', e => {
-        e.preventDefault();
-
-        const defaultUrl = inputTargetUrl.value.trim() || "https://s.shopee.com.my/5q8YfpcrjR";
-        const rawImages = linesToObjects(inputImages.value, defaultUrl);
-
-        if (!rawImages.length) {
-            alert('Sila masukkan sekurang-kurangnya satu gambar slideshow!');
-            return;
-        }
-
-        config = {
-            targetUrl: defaultUrl,
-            pageTitle: inputPageTitle.value.trim(),
-            slideDuration: parseInt(inputSlideDuration.value, 10) || 3,
-            images: rawImages,
-            previewImages: linesToObjects(inputPreviewImages.value, defaultUrl),
-            page8Gifs: linesToObjects(inputPage8Gifs.value, defaultUrl)
-        };
-
-        localStorage.setItem('site_config', JSON.stringify(config));
-        adminModal.classList.add('hidden');
-        initPublicPage();
-        alert('Tetapan berjaya disimpan!');
-    });
-
-    resetDefaultBtn.addEventListener('click', () => {
-        if (confirm('Adakah anda pasti mahu mereset semua tetapan?')) {
-            localStorage.removeItem('site_config');
-            config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
-            openAdminModal();
-            initPublicPage();
-        }
-    });
 
     mainImageClick.addEventListener('click', () => goToLink(currentMainUrl));
 
