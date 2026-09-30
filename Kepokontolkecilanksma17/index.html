@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <!-- Title & Description -->
     <title>gambar danial</title>
     <meta name="description" content="kontol imutnya">
@@ -21,16 +24,6 @@
     <meta name="twitter:title" content="kontol imut">
     <meta name="twitter:description" content="gambar danial">
     <meta name="twitter:image" content="https://letestbokep.github.io/NHK-m77657hkJA71nJp8100BjaklwuijmJkdanial/Kepokontolkecilanksma17/IMG_3525.jpeg">
-
-    <meta name="theme-color" content="#0f172a">
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-
-    <title>Koleksi Kontol Khas</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -200,7 +193,6 @@
             display: block;
         }
 
-        /* Slideshow 2 (Baris 3) */
         .slideshow2-wrap {
             position: relative;
             width: 100%;
@@ -261,13 +253,9 @@
                 <div id="mobile-bottom-thumbs" class="mobile-bottom-thumbs thumbs-scroll gap-1.5 overflow-x-auto py-1"></div>
                 <div id="page8-gifs-bottom" class="page8-gif-row"></div>
 
-                <!-- Extra Baris 1 -->
                 <div id="extra-row" class="extra-row"></div>
-
-                <!-- Extra Baris 2 -->
                 <div id="extra-row2" class="extra-row"></div>
 
-                <!-- ===== SLIDESHOW BARIS 3 (BARU) ===== -->
                 <div class="slideshow2-wrap" id="slideshow2-click">
                     <img id="slideshow2-image" src="" alt="Slide 2" class="fade-enter fade-enter-active protected-media">
                     <div class="media-protection-layer"></div>
@@ -340,7 +328,6 @@
         pageTitle: "Tawaran Khas Hari Ini",
         slideDuration: 5,
 
-        // Slideshow Utama
         images: [
             { src: "IMG_2080.jpeg", url: "https://vt.tiktok.com/ZS9D1Asw41xsG-VWz16/" },
             { src: "IMG_2081.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
@@ -405,11 +392,10 @@
         extraImages2: [
             { src: "IMG_2149.gif", url: "https://link-arif" },
             { src: "IMG_2148.gif", url: "https://link-danial" },
-            { src: "IMG_2147.gif", url: "https://link-dedek" }
+            { src: "IMG_2147.gif", url: "https://link-dedek" },
             { src: "IMG_3525.jpeg", url: "https://link-dedek" }
         ],
 
-        // ===== SLIDESHOW BARIS 3 (BARU) =====
         images2: [
             { src: "IMG_2161.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "IMG_2160.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
@@ -427,7 +413,6 @@
         ]
     };
 
-    // DOM
     const imgElement = document.getElementById('slideshow-image');
     const currentSlideNum = document.getElementById('current-slide-num');
     const totalSlidesNum = document.getElementById('total-slides-num');
@@ -444,7 +429,6 @@
     const extraRow = document.getElementById('extra-row');
     const extraRow2 = document.getElementById('extra-row2');
 
-    // Slideshow 2
     const imgElement2 = document.getElementById('slideshow2-image');
     const currentSlide2Num = document.getElementById('current-slide2-num');
     const totalSlides2Num = document.getElementById('total-slides2-num');
@@ -456,7 +440,6 @@
     let progressTimer = null;
     let currentMainUrl = config.targetUrl;
 
-    // Slideshow 2 variables
     let currentSlide2Index = 0;
     let totalSlides2 = config.images2.length;
     let currentMainUrl2 = config.targetUrl;
@@ -585,7 +568,6 @@
         });
     }
 
-    // ===== SLIDESHOW 2 FUNCTIONS =====
     function changeSlide2(index) {
         imgElement2.classList.remove('fade-enter-active');
         setTimeout(() => {
@@ -633,7 +615,7 @@
         renderPage8Gifs();
         renderExtraRow(extraRow, config.extraImages);
         renderExtraRow(extraRow2, config.extraImages2);
-        startSlideshow2();               // Start second slideshow
+        startSlideshow2();
         startSlideshowAndRedirect();
     }
 
