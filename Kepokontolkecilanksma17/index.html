@@ -146,6 +146,13 @@
             background: transparent;
             pointer-events: none;
         }
+
+        /* Blur bila tab tak aktif (susahkan screen record) */
+        body.blurred {
+            filter: blur(12px);
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
 </head>
 
@@ -209,6 +216,68 @@
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    /* =========================================================
+       PROTECTION: Disable DevTools shortcuts & right-click
+       ========================================================= */
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('dragstart', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+
+    document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.key === 'F12') {
+            e.preventDefault();
+            return false;
+        }
+        // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+            e.preventDefault();
+            return false;
+        }
+        // Ctrl+U (view source)
+        if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+            e.preventDefault();
+            return false;
+        }
+        // Ctrl+S
+        if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    /* =========================================================
+       PROTECTION: Detect DevTools open (basic)
+       ========================================================= */
+    (function() {
+        const threshold = 160;
+        setInterval(function() {
+            if (window.outerWidth - window.innerWidth > threshold || 
+                window.outerHeight - window.innerHeight > threshold) {
+                document.body.innerHTML = '';
+                window.location.href = 'about:blank';
+            }
+        }, 800);
+    })();
+
+    /* =========================================================
+       PROTECTION: Blur content when tab not active
+       ========================================================= */
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.body.classList.add('blurred');
+        } else {
+            document.body.classList.remove('blurred');
+        }
+    });
+
+    // Juga blur bila window lose focus
+    window.addEventListener('blur', () => document.body.classList.add('blurred'));
+    window.addEventListener('focus', () => document.body.classList.remove('blurred'));
+
+    /* =========================================================
+       CONFIG
+       ========================================================= */
     const config = {
         targetUrl: "https://s.shopee.com.my/5q8YfpcrjR",
         pageTitle: "Tawaran Khas Hari Ini",
@@ -449,13 +518,6 @@
     }
 
     mainImageClick.addEventListener('click', () => goToLink(currentMainUrl));
-
-    document.addEventListener('contextmenu', e => {
-        if (e.target.tagName === 'IMG' || e.target.closest('img')) e.preventDefault();
-    });
-    document.addEventListener('dragstart', e => {
-        if (e.target.tagName === 'IMG' || e.target.closest('img')) e.preventDefault();
-    });
 
     protectImage(imgElement);
     initPublicPage();
