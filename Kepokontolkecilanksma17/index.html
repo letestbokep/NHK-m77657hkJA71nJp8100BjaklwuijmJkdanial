@@ -147,13 +147,13 @@
             pointer-events: none;
         }
 
-        /* ===== NEW EXTRA COLUMN ===== */
+        /* Extra rows */
         .extra-row {
             width: 100%;
             display: flex;
             justify-content: center;
             gap: clamp(8px, 2vw, 16px);
-            padding: 8px 4px 4px;
+            padding: 6px 4px;
             flex-wrap: wrap;
         }
         .extra-item {
@@ -221,8 +221,11 @@
                 <div id="mobile-bottom-thumbs" class="mobile-bottom-thumbs thumbs-scroll gap-1.5 overflow-x-auto py-1"></div>
                 <div id="page8-gifs-bottom" class="page8-gif-row"></div>
 
-                <!-- ===== NEW EXTRA COLUMN ===== -->
+                <!-- Baris Extra 1 -->
                 <div id="extra-row" class="extra-row"></div>
+
+                <!-- Baris Extra 2 (baru) -->
+                <div id="extra-row2" class="extra-row"></div>
             </div>
         </div>
 
@@ -284,9 +287,9 @@
 
     /* CONFIG */
     const config = {
-        targetUrl: "https://s.shopee.com.my/5q8YfpcrjR",       // <-- NI TEMPAT penghala utama
+        targetUrl: "https://s.shopee.com.my/5q8YfpcrjR",
         pageTitle: "Tawaran Khas Hari Ini",
-        slideDuration: 5,       // <-- NI TEMPAT SET MASA
+        slideDuration: 5,
         images: [
             { src: "IMG_2080.jpeg", url: "https://vt.tiktok.com/ZS9D1Asw41xsG-VWz16/" },
             { src: "IMG_2081.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
@@ -339,11 +342,19 @@
             { src: "IMG_2127.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "IMG_2128.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ],
-        // ===== NEW EXTRA IMAGES (bawah column utama) =====
+
+        // ===== BARIS 1 =====
         extraImages: [
             { src: "ARIF.jpeg",   url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "DANIAL.gif",  url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "DEDEK.jpeg",  url: "https://s.shopee.com.my/5q8YfpcrjR" }
+        ],
+
+        // ===== BARIS 2 (baru) =====
+        extraImages2: [
+            { src: "IMG_2149.gif", url: "https://link-arif" },
+            { src: "IMG_2148.gif", url: "https://link-danial" },
+            { src: "IMG_2147.gif", url: "https://link-dedek" }
         ]
     };
 
@@ -361,6 +372,7 @@
     const page8GifsBottom = document.getElementById('page8-gifs-bottom');
     const mainImageClick = document.getElementById('main-image-click');
     const extraRow = document.getElementById('extra-row');
+    const extraRow2 = document.getElementById('extra-row2');
 
     let currentSlideIndex = 0;
     let totalSlides = config.images.length;
@@ -468,12 +480,11 @@
         page8GifsBottom.classList.add('gif-visible');
     }
 
-    // ===== RENDER EXTRA COLUMN =====
-    function renderExtraImages() {
-        extraRow.innerHTML = '';
-        if (!Array.isArray(config.extraImages) || !config.extraImages.length) return;
+    function renderExtraRow(container, items) {
+        container.innerHTML = '';
+        if (!Array.isArray(items) || !items.length) return;
 
-        config.extraImages.forEach(item => {
+        items.forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'extra-item';
 
@@ -488,7 +499,7 @@
 
             wrapper.appendChild(img);
             wrapper.addEventListener('click', () => goToLink(item.url));
-            extraRow.appendChild(wrapper);
+            container.appendChild(wrapper);
         });
     }
 
@@ -508,7 +519,8 @@
 
         renderPreviews();
         renderPage8Gifs();
-        renderExtraImages();          // <-- new
+        renderExtraRow(extraRow, config.extraImages);     // Baris 1
+        renderExtraRow(extraRow2, config.extraImages2);   // Baris 2
         startSlideshowAndRedirect();
     }
 
