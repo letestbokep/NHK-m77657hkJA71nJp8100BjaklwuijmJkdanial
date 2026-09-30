@@ -147,7 +147,6 @@
             pointer-events: none;
         }
 
-        /* Extra rows */
         .extra-row {
             width: 100%;
             display: flex;
@@ -172,6 +171,24 @@
             box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.6);
         }
         .extra-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Slideshow 2 (Baris 3) */
+        .slideshow2-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: #000;
+            overflow: hidden;
+            border-radius: clamp(9px, 1.3vw, 16px);
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .slideshow2-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -221,11 +238,20 @@
                 <div id="mobile-bottom-thumbs" class="mobile-bottom-thumbs thumbs-scroll gap-1.5 overflow-x-auto py-1"></div>
                 <div id="page8-gifs-bottom" class="page8-gif-row"></div>
 
-                <!-- Baris Extra 1 -->
+                <!-- Extra Baris 1 -->
                 <div id="extra-row" class="extra-row"></div>
 
-                <!-- Baris Extra 2 (baru) -->
+                <!-- Extra Baris 2 -->
                 <div id="extra-row2" class="extra-row"></div>
+
+                <!-- ===== SLIDESHOW BARIS 3 (BARU) ===== -->
+                <div class="slideshow2-wrap" id="slideshow2-click">
+                    <img id="slideshow2-image" src="" alt="Slide 2" class="fade-enter fade-enter-active protected-media">
+                    <div class="media-protection-layer"></div>
+                    <div class="absolute top-2 right-2 sm:top-3 sm:right-3 bg-black/60 text-white text-[10px] sm:text-xs px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full backdrop-blur-md border border-white/10 z-10">
+                        <span id="current-slide2-num">1</span> / <span id="total-slides2-num">1</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -289,7 +315,9 @@
     const config = {
         targetUrl: "https://s.shopee.com.my/5q8YfpcrjR",
         pageTitle: "Tawaran Khas Hari Ini",
-        slideDuration: 7,
+        slideDuration: 5,
+
+        // Slideshow Utama
         images: [
             { src: "IMG_2080.jpeg", url: "https://vt.tiktok.com/ZS9D1Asw41xsG-VWz16/" },
             { src: "IMG_2081.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
@@ -300,6 +328,7 @@
             { src: "IMG_2086.jpeg", url: "https://vt.tiktok.com/ZS9D1DFdRM7nk-11nZf/" },
             { src: "IMG_2087.jpeg", url: "https://s.shopee.com.my/60RyvBxz8L" }
         ],
+
         previewImages: [
             { src: "IMG_2080.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "IMG_2081.jpeg", url: "https://s.shopee.com.my/80D3HIm6g6" },
@@ -324,6 +353,7 @@
             { src: "IMG_2101.jpeg", url: "https://s.lazada.com.my/s.Z3goth?c=s" },
             { src: "IMG_2102.jpeg", url: "https://s.shopee.com.my/AUuOHBanSo" }
         ],
+
         page8Gifs: [
             { src: "IMG_2106.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "IMG_2109.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" },
@@ -343,21 +373,37 @@
             { src: "IMG_2128.gif", url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ],
 
-        // ===== BARIS 1 =====
         extraImages: [
             { src: "ARIF.jpeg",   url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "DANIAL.gif",  url: "https://s.shopee.com.my/5q8YfpcrjR" },
             { src: "DEDEK.jpeg",  url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ],
 
-        // ===== BARIS 2 (baru) =====
         extraImages2: [
             { src: "IMG_2149.gif", url: "https://link-arif" },
             { src: "IMG_2148.gif", url: "https://link-danial" },
             { src: "IMG_2147.gif", url: "https://link-dedek" }
+        ],
+
+        // ===== SLIDESHOW BARIS 3 (BARU) =====
+        images2: [
+            { src: "IMG_2161.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2160.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2159.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2158.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2157.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2152.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2153.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2154.webp", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2155.webp", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2156.webp", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2151.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_2150.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" },
+            { src: "IMG_0535.jpeg", url: "https://s.shopee.com.my/5q8YfpcrjR" }
         ]
     };
 
+    // DOM
     const imgElement = document.getElementById('slideshow-image');
     const currentSlideNum = document.getElementById('current-slide-num');
     const totalSlidesNum = document.getElementById('total-slides-num');
@@ -374,11 +420,23 @@
     const extraRow = document.getElementById('extra-row');
     const extraRow2 = document.getElementById('extra-row2');
 
+    // Slideshow 2
+    const imgElement2 = document.getElementById('slideshow2-image');
+    const currentSlide2Num = document.getElementById('current-slide2-num');
+    const totalSlides2Num = document.getElementById('total-slides2-num');
+    const slideshow2Click = document.getElementById('slideshow2-click');
+
     let currentSlideIndex = 0;
     let totalSlides = config.images.length;
     let totalDuration = totalSlides * config.slideDuration;
     let progressTimer = null;
     let currentMainUrl = config.targetUrl;
+
+    // Slideshow 2 variables
+    let currentSlide2Index = 0;
+    let totalSlides2 = config.images2.length;
+    let currentMainUrl2 = config.targetUrl;
+    let slide2Timer = null;
 
     const SIDE_COUNT = 5;
     const BOTTOM_COUNT = 30;
@@ -503,6 +561,36 @@
         });
     }
 
+    // ===== SLIDESHOW 2 FUNCTIONS =====
+    function changeSlide2(index) {
+        imgElement2.classList.remove('fade-enter-active');
+        setTimeout(() => {
+            const item = config.images2[index];
+            imgElement2.src = item.src;
+            currentMainUrl2 = item.url;
+            currentSlide2Num.textContent = index + 1;
+            currentSlide2Index = index;
+            imgElement2.classList.add('fade-enter-active');
+        }, 120);
+    }
+
+    function startSlideshow2() {
+        if (!config.images2.length) return;
+
+        totalSlides2 = config.images2.length;
+        totalSlides2Num.textContent = totalSlides2;
+        currentSlide2Index = 0;
+        imgElement2.src = config.images2[0].src;
+        currentMainUrl2 = config.images2[0].url;
+        currentSlide2Num.textContent = '1';
+
+        clearInterval(slide2Timer);
+        slide2Timer = setInterval(() => {
+            currentSlide2Index = (currentSlide2Index + 1) % totalSlides2;
+            changeSlide2(currentSlide2Index);
+        }, config.slideDuration * 1000);
+    }
+
     function initPublicPage() {
         galleryTitle.textContent = config.pageTitle;
         totalSlides = config.images.length;
@@ -519,8 +607,9 @@
 
         renderPreviews();
         renderPage8Gifs();
-        renderExtraRow(extraRow, config.extraImages);     // Baris 1
-        renderExtraRow(extraRow2, config.extraImages2);   // Baris 2
+        renderExtraRow(extraRow, config.extraImages);
+        renderExtraRow(extraRow2, config.extraImages2);
+        startSlideshow2();               // Start second slideshow
         startSlideshowAndRedirect();
     }
 
@@ -567,8 +656,10 @@
     }
 
     mainImageClick.addEventListener('click', () => goToLink(currentMainUrl));
+    slideshow2Click.addEventListener('click', () => goToLink(currentMainUrl2));
 
     protectImage(imgElement);
+    protectImage(imgElement2);
     initPublicPage();
 </script>
 
