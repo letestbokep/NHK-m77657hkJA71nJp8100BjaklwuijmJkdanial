@@ -210,6 +210,41 @@
             display: block;
         }
 
+        /* ===== FLOATING TAB ===== */
+        .floating-tab {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 8px 6px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+        }
+        .floating-tab a {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #e2e8f0;
+            background: rgba(51, 65, 85, 0.85);
+            border-radius: 9999px;
+            text-decoration: none;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .floating-tab a:hover {
+            background: #4f46e5;
+            border-color: #6366f1;
+            color: white;
+            transform: translateY(-1px);
+        }
+
         body.blurred {
             filter: blur(12px);
             pointer-events: none;
@@ -230,6 +265,16 @@
             <p class="text-[10px] sm:text-xs text-slate-400 mt-1">
                 Sila tunggu sebentar, gambar sedang dimuatkan...
             </p>
+        </div>
+
+        <!-- FLOATING TAB -->
+        <div class="floating-tab">
+            <a href="https://example.com/home" target="_blank">Home</a>
+            <a href="https://example.com/exbi" target="_blank">Exbi</a>
+            <a href="https://example.com/les" target="_blank">Les</a>
+            <a href="https://example.com/bdsm" target="_blank">Bdsm</a>
+            <a href="https://example.com/ballpython" target="_blank">Ball pyton</a>
+            <a href="https://github.com/letestbokep/NHK-m77657hkJA71nJp8100BjaklwuijmJkdanial/issues" target="_blank">Report to GitHub</a>
         </div>
 
         <div class="p-2 sm:p-3 md:p-4 lg:p-5 bg-slate-900/40">
