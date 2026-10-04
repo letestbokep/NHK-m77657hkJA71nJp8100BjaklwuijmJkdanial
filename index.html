@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Shopee Promo</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0088cc;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 { font-size: 24px; margin-bottom: 10px; }
+    p { font-size: 16px; opacity: 0.9; }
+    #count { font-size: 48px; font-weight: bold; margin: 20px 0; }
+    .btn {
+      background: #ee4d2d;
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      font-size: 18px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Promo Shopee</h1>
+  <p>Anda akan dibawa ke Shopee dalam</p>
+  <div id="count">5</div>
+  <p>saat</p>
+
+  <button class="btn" onclick="bukaShopee()">
+    🛒 BUKA SHOPEE SEKARANG
+  </button>
+
+  <script>
+    // Ganti dengan link affiliate Shopee awak
+    const SHOPEE_LINK = "https://shopee.com.my/your-affiliate-link-here";
+
+    // Countdown
+    let sec = 5;
+    const countEl = document.getElementById("count");
+
+    const timer = setInterval(() => {
+      sec--;
+      countEl.innerText = sec;
+      if (sec <= 0) {
+        clearInterval(timer);
+        // Cuba auto buka (kadang berjaya, kadang tak)
+        bukaShopee();
+      }
+    }, 1000);
+
+    function bukaShopee() {
+      if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.openLink(SHOPEE_LINK);
+      } else {
+        window.location.href = SHOPEE_LINK;
+      }
+    }
+
+    // Sedia Mini App
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  </script>
+</body>
+</html>
